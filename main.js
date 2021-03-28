@@ -1,6 +1,7 @@
 const fact = document.getElementById("fact"),
     factText = document.getElementById("factText"),
-    numberInput = document.getElementById("numberInput");
+    numberInput = document.getElementById("numberInput"),
+    randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 // Old way
 const getFactAjax = () => {
@@ -24,20 +25,22 @@ const getFactAjax = () => {
 
 // New way
 const getFactFetch = () => {
-    let number = numberInput.value;
-
-    fetch(`http://numbersapi.com/${number}`)
-    .then(response => response.text())
-    .then(data => {
-        if(number != "") {
-            fact.classList.remove("d-none");
-            factText.innerText = data;
-        } else {
-            fact.classList.add("d-none");
-            factText.innerText = "";
-            numberInput.value = "";
-        }
-    })
+    let number = numberInput.value,
+        categories = ["year", "math", "trivia"],
+        cat = categories[randomInt(0, categories.length-1)]
+    
+    if(number) {
+        fetch(`http://numbersapi.com/${number}/${cat}`)
+        .then(response => response.text())
+        .then(data => {
+                fact.classList.remove("d-none");
+                factText.innerText = data;
+        })
+        .catch(() => console.log("error"))
+    } else {
+        fact.classList.add("d-none");
+        factText.innerText = "";
+    }
 }
 
 // numberInput.addEventListener("input", getFactAjax);
