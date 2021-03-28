@@ -24,24 +24,26 @@ const getFactAjax = () => {
 }
 
 // New way
-const getFactFetch = () => {
-    let number = numberInput.value,
-        categories = ["year", "math", "trivia"],
-        cat = categories[randomInt(0, categories.length-1)]
-    
-    if(number) {
+const getFactFetch = (e) => {
+    if(e.keyCode === 13) {
+        let number = numberInput.value,
+            categories = ["year", "math", "trivia"],
+            cat = categories[randomInt(0, categories.length-1)]
+        
+        if(!number) {
+            fact.style.display = "none";
+            factText.innerText = "";
+            numberInput.value = "";
+            return;
+        }
         fetch(`http://numbersapi.com/${number}/${cat}`)
         .then(response => response.text())
         .then(data => {
-                fact.classList.remove("d-none");
-                factText.innerText = data;
-        })
-        .catch(() => console.log("error"))
-    } else {
-        fact.classList.add("d-none");
-        factText.innerText = "";
+            fact.style.display = "block";
+            factText.innerText = data;
+        })    
     }
 }
 
-// numberInput.addEventListener("input", getFactAjax);
-numberInput.addEventListener("input", getFactFetch);
+// numberInput.addEventListener("keyup", getFactAjax);
+numberInput.addEventListener("keyup", getFactFetch);
