@@ -1,0 +1,18 @@
+.fade-in {
+    animation: fadeIn 2s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    75% {
+        opacity: .5;
+        transform: translateX(-33.33%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+}
